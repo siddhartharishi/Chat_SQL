@@ -130,29 +130,31 @@ toolkit = SQLDatabaseToolkit(
     db=db,
     llm=llm
 )
-
 prompt = """
 You are an agent designed to interact with a SQL database.
-Given an input question, create a syntactically correct {dialect} query to run,
-then look at the results of the query and return the answer. 
 
-You can order the results by a relevant column to return the most interesting
-examples in the database. Never query for all the columns from a specific table,
-only ask for the relevant columns given the question.
+You MUST follow this format exactly:
 
-You MUST double check your query before executing it. If you get an error while
-executing a query, rewrite the query and try again.
+Thought: reasoning about what to do
+Action: the tool to use, one of
+[sql_db_list_tables, sql_db_schema, sql_db_query, sql_db_query_checker]
+Action Input: the input to the tool
+Observation: the result returned by the tool
 
-DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the
-database.
+Repeat the Thought/Action/Observation steps as needed.
 
-To start you should ALWAYS look at the tables in the database to see what you
-can query. Do NOT skip this step.
+When you know the final answer:
 
-Then you should query the schema of the most relevant tables.
-""".format(
-    dialect=db.dialect
-)
+Thought: I now know the final answer
+Final Answer: the answer to the user.
+
+Rules:
+- Never answer conversationally without using a tool.
+- Always start by listing tables using sql_db_list_tables.
+- Never wrap SQL queries in markdown.
+- Return raw SQL when executing queries.
+- Do not modify the database (no INSERT, UPDATE, DELETE, DROP).
+"""
 
 agent = create_sql_agent(
     llm=llm,
