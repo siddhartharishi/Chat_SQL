@@ -130,9 +130,7 @@ toolkit = SQLDatabaseToolkit(
     db=db,
     llm=llm
 )
-# Unless the user
-# specifies a specific number of examples they wish to obtain, always limit your
-# query to at most {top_k} results.
+
 prompt = """
 You are an agent designed to interact with a SQL database.
 Given an input question, create a syntactically correct {dialect} query to run,
