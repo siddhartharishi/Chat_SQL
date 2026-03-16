@@ -11,6 +11,10 @@ The app converts your question into SQL using an LLM and returns the results ins
 
 ---
 
+## 📸 UI Preview
+![Chat SQL UI](ChatSQL_UI.png)
+
+
 ## ✨ Features
 
 🚀 **Natural Language → SQL**
@@ -174,14 +178,7 @@ Enter:
 
 ---
 
-## 📸 UI Preview
 
-Example interaction:
-
-```
-User: Show top 5 tracks by sales
-AI: Displays SQL query and results in a table
-```
 
 
 
